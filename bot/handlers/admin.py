@@ -5,10 +5,26 @@ from aiogram.filters import CommandStart, Command
 
 from bot import database
 from bot.config import is_admin
-from bot.keyboards import admin_main_kb
+from bot.keyboards import (
+    admin_main_kb,
+    user_main_kb,
+    academy_links_inline_kb
+)
 
 router = Router(name="admin")
 logger = logging.getLogger(__name__)
+
+ACADEMY_INFO_TEXT = (
+    "🏛 <b>Xalqaro Turizm Akademiyasi (Samarqand kampusi)</b>\n\n"
+    "Bizning rasmiy axborot resurslarimiz va aloqa ma'lumotlari:\n\n"
+    "🌐 <b>Rasmiy sayt:</b> <a href=\"https://tourism-academy.uz\">tourism-academy.uz</a>\n"
+    "🎓 <b>Online platforma:</b> <a href=\"https://tourism-edu.uz\">tourism-edu.uz</a>\n\n"
+    "📞 <b>Call-markaz:</b> <code>+99890 103 30 00</code>\n\n"
+    "📲 <b>Ijtimoiy tarmoqlarimiz:</b>\n"
+    "• <b>Telegram:</b> <a href=\"https://t.me/ita_samarkand\">@ita_samarkand</a>\n"
+    "• <b>Instagram:</b> <a href=\"https://t.me/ita_samarkand\">@ita_samarkand</a>\n"
+    "• <b>Facebook:</b> <a href=\"https://t.me/ita_samarkand\">ita_samarkand</a>\n"
+)
 
 
 @router.message(CommandStart())
@@ -32,7 +48,7 @@ async def cmd_start(message: Message):
     else:
         text = (
             f"Assalomu alaykum, <b>{message.from_user.full_name}</b>!\n\n"
-            "🎓 Bu <b>Akademiya reklama va yangiliklarini tarqatish boti</b>.\n\n"
+            "🎓 Bu <b>Xalqaro Turizm Akademiyasi (Samarqand kampusi)</b> reklama va yangiliklarini tarqatish boti.\n\n"
             "📌 <b>Botdan foydalanish tartibi:</b>\n"
             "1. Botni o'zingizning Telegram kanalingizga <b>Administrator</b> qilib qo'shing "
             "(<i>Xabarlarni joylashtirish</i> ruxsati bilan).\n"
@@ -40,7 +56,41 @@ async def cmd_start(message: Message):
             "Shunda akademiya tomonidan e'lon qilinadigan eng so'nggi yangiliklar, "
             "foydali postlar va chegirmalar avtomatik ravishda kanalingiz/guruhingizga yetib boradi."
         )
-        await message.answer(text, parse_mode="HTML")
+        await message.answer(text, reply_markup=user_main_kb(), parse_mode="HTML")
+        await message.answer(
+            ACADEMY_INFO_TEXT,
+            reply_markup=academy_links_inline_kb(),
+            parse_mode="HTML",
+            disable_web_page_preview=True
+        )
+
+
+@router.message(F.text == "🌐 Akademiya haqida")
+@router.message(Command("info"))
+@router.message(Command("contact"))
+async def cmd_academy_info(message: Message):
+    """Akademiya rasmiy sayti, platformasi va ijtimoiy tarmoqlari ma'lumotlari."""
+    await message.answer(
+        ACADEMY_INFO_TEXT,
+        reply_markup=academy_links_inline_kb(),
+        parse_mode="HTML",
+        disable_web_page_preview=True
+    )
+
+
+@router.message(F.text == "ℹ️ Botdan foydalanish")
+async def cmd_bot_usage(message: Message):
+    """Oddiy foydalanuvchilar uchun botdan foydalanish qo'llanmasi."""
+    text = (
+        "📌 <b>Botni guruh yoki kanalga qo'shish tartibi:</b>\n\n"
+        "1️⃣ <b>Kanalga qo'shish:</b>\n"
+        "Kanal sozlamalari -> <i>Administrators</i> -> <i>Add Administrator</i> -> "
+        "<code>@xalqaro_turizm_sam_bot</code> ni qidirib qo'shing va <b>Post Messages</b> ruxsatini bering.\n\n"
+        "2️⃣ <b>Guruhga qo'shish:</b>\n"
+        "Guruhingizga botni a'zo yoki admin sifatida qo'shing.\n\n"
+        "Shundan so'ng akademiya e'lonlari sizning guruhingiz va kanalingizga avtomatik yetib boradi."
+    )
+    await message.answer(text, reply_markup=user_main_kb(), parse_mode="HTML")
 
 
 @router.message(F.text == "📊 Statistika")

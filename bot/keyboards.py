@@ -11,9 +11,36 @@ def admin_main_kb() -> ReplyKeyboardMarkup:
     kb = [
         [KeyboardButton(text="📢 Yangilik tarqatish")],
         [KeyboardButton(text="📊 Statistika"), KeyboardButton(text="📋 Guruh va kanallar")],
-        [KeyboardButton(text="ℹ️ Qo'llanma")]
+        [KeyboardButton(text="🌐 Akademiya haqida"), KeyboardButton(text="ℹ️ Qo'llanma")]
     ]
     return ReplyKeyboardMarkup(keyboard=kb, resize_keyboard=True)
+
+
+def user_main_kb() -> ReplyKeyboardMarkup:
+    """Oddiy foydalanuvchilar menyusi."""
+    kb = [
+        [KeyboardButton(text="🌐 Akademiya haqida")],
+        [KeyboardButton(text="ℹ️ Botdan foydalanish")]
+    ]
+    return ReplyKeyboardMarkup(keyboard=kb, resize_keyboard=True)
+
+
+def academy_links_inline_kb() -> InlineKeyboardMarkup:
+    """Akademiya saytlari va ijtimoiy tarmoqlari inline tugmalari."""
+    kb = [
+        [
+            InlineKeyboardButton(text="🌐 Rasmiy sayt", url="https://tourism-academy.uz"),
+            InlineKeyboardButton(text="🎓 Online platforma", url="https://tourism-edu.uz")
+        ],
+        [
+            InlineKeyboardButton(text="✈️ Telegram", url="https://t.me/ita_samarkand"),
+            InlineKeyboardButton(text="📸 Instagram", url="https://t.me/ita_samarkand")
+        ],
+        [
+            InlineKeyboardButton(text="📘 Facebook", url="https://t.me/ita_samarkand")
+        ]
+    ]
+    return InlineKeyboardMarkup(inline_keyboard=kb)
 
 
 def cancel_kb() -> ReplyKeyboardMarkup:

@@ -6,13 +6,17 @@ load_dotenv()
 
 BOT_TOKEN: str = os.getenv("BOT_TOKEN", "").strip()
 
+# Bosh admin (Iskandar Fazliddinov)
+ADMIN_IDS: List[int] = [6034025619]
+
 raw_admins = os.getenv("ADMIN_IDS", "").strip()
-ADMIN_IDS: List[int] = []
 if raw_admins:
     for admin_id in raw_admins.split(","):
         cleaned = admin_id.strip()
         if cleaned.isdigit():
-            ADMIN_IDS.append(int(cleaned))
+            val = int(cleaned)
+            if val not in ADMIN_IDS:
+                ADMIN_IDS.append(val)
 
 DB_PATH: str = os.getenv("DB_PATH", "database.sqlite3").strip()
 
