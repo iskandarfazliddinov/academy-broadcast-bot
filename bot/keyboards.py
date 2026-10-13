@@ -11,7 +11,8 @@ def admin_main_kb() -> ReplyKeyboardMarkup:
     kb = [
         [KeyboardButton(text="📢 Yangilik tarqatish")],
         [KeyboardButton(text="📊 Statistika"), KeyboardButton(text="📋 Guruh va kanallar")],
-        [KeyboardButton(text="🌐 Akademiya haqida"), KeyboardButton(text="ℹ️ Qo'llanma")]
+        [KeyboardButton(text="🌐 Akademiya haqida"), KeyboardButton(text="📍 Lokatsiya")],
+        [KeyboardButton(text="ℹ️ Qo'llanma")]
     ]
     return ReplyKeyboardMarkup(keyboard=kb, resize_keyboard=True)
 
@@ -19,7 +20,7 @@ def admin_main_kb() -> ReplyKeyboardMarkup:
 def user_main_kb() -> ReplyKeyboardMarkup:
     """Oddiy foydalanuvchilar menyusi."""
     kb = [
-        [KeyboardButton(text="🌐 Akademiya haqida")],
+        [KeyboardButton(text="🌐 Akademiya haqida"), KeyboardButton(text="📍 Lokatsiya")],
         [KeyboardButton(text="ℹ️ Botdan foydalanish")]
     ]
     return ReplyKeyboardMarkup(keyboard=kb, resize_keyboard=True)
@@ -34,10 +35,19 @@ def academy_links_inline_kb() -> InlineKeyboardMarkup:
         ],
         [
             InlineKeyboardButton(text="✈️ Telegram", url="https://t.me/ita_samarkand"),
-            InlineKeyboardButton(text="📸 Instagram", url="https://t.me/ita_samarkand")
+            InlineKeyboardButton(text="📸 Instagram", url="https://www.instagram.com/ita_samarkand")
         ],
         [
-            InlineKeyboardButton(text="📘 Facebook", url="https://t.me/ita_samarkand")
+            InlineKeyboardButton(
+                text="📘 Facebook",
+                url="https://www.facebook.com/people/Xalqaro-Turizm-Akademiyasi-Samarqand-kampusi/61587006718732/"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                text="📍 Google Xarita (Lokatsiya)",
+                url="https://www.google.com/maps?q=39.64543000691366,66.95740956008511"
+            )
         ]
     ]
     return InlineKeyboardMarkup(inline_keyboard=kb)

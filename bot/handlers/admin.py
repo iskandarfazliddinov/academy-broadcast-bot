@@ -17,13 +17,14 @@ logger = logging.getLogger(__name__)
 ACADEMY_INFO_TEXT = (
     "🏛 <b>Xalqaro Turizm Akademiyasi (Samarqand kampusi)</b>\n\n"
     "Bizning rasmiy axborot resurslarimiz va aloqa ma'lumotlari:\n\n"
-    "🌐 <b>Rasmiy sayt:</b> <a href=\"https://tourism-academy.uz\">tourism-academy.uz</a>\n"
-    "🎓 <b>Online platforma:</b> <a href=\"https://tourism-edu.uz\">tourism-edu.uz</a>\n\n"
-    "📞 <b>Call-markaz:</b> <code>+99890 103 30 00</code>\n\n"
+    "🌐 <b>Rasmiy veb-sayt:</b> <a href=\"https://tourism-academy.uz\">tourism-academy.uz</a>\n"
+    "🎓 <b>Online ta'lim platformasi:</b> <a href=\"https://tourism-edu.uz\">tourism-edu.uz</a>\n\n"
+    "📞 <b>Call-markaz:</b> <code>+99890 103 30 00</code>\n"
+    "📍 <b>Manzil:</b> Bobur Mirzo ko'chasi, Samarqand, O'zbekiston (JXW4+6WF)\n\n"
     "📲 <b>Ijtimoiy tarmoqlarimiz:</b>\n"
     "• <b>Telegram:</b> <a href=\"https://t.me/ita_samarkand\">@ita_samarkand</a>\n"
-    "• <b>Instagram:</b> <a href=\"https://t.me/ita_samarkand\">@ita_samarkand</a>\n"
-    "• <b>Facebook:</b> <a href=\"https://t.me/ita_samarkand\">ita_samarkand</a>\n"
+    "• <b>Instagram:</b> <a href=\"https://www.instagram.com/ita_samarkand\">@ita_samarkand</a>\n"
+    "• <b>Facebook:</b> <a href=\"https://www.facebook.com/people/Xalqaro-Turizm-Akademiyasi-Samarqand-kampusi/61587006718732/\">Xalqaro Turizm Akademiyasi</a>\n"
 )
 
 
@@ -73,6 +74,33 @@ async def cmd_academy_info(message: Message):
     await message.answer(
         ACADEMY_INFO_TEXT,
         reply_markup=academy_links_inline_kb(),
+        parse_mode="HTML",
+        disable_web_page_preview=True
+    )
+
+
+@router.message(F.text == "📍 Lokatsiya")
+@router.message(Command("location"))
+async def cmd_location(message: Message):
+    """Akademiya joylashuv manzili va geolokatsiyasini yuborish."""
+    latitude = 39.64543000691366
+    longitude = 66.95740956008511
+
+    try:
+        await message.answer_venue(
+            latitude=latitude,
+            longitude=longitude,
+            title="Xalqaro Turizm Akademiyasi Samarqand kampusi",
+            address="Bobur Mirzo ko'chasi, Samarqand, O'zbekiston (JXW4+6WF)"
+        )
+    except Exception as e:
+        logger.warning(f"Venue yuborishda xatolik: {e}")
+        await message.answer_location(latitude=latitude, longitude=longitude)
+
+    await message.answer(
+        "📍 <b>Akademiya aniq manzili:</b>\n"
+        "Samarqand viloyati, Samarqand shahri, Bobur Mirzo ko'chasi (JXW4+6WF)\n\n"
+        "🗺 <a href=\"https://www.google.com/maps?q=39.64543000691366,66.95740956008511\">Google Xaritada ochish (Navigatsiya)</a>",
         parse_mode="HTML",
         disable_web_page_preview=True
     )
