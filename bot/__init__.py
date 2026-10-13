@@ -1,0 +1,1 @@
+"""Academy Broadcast Bot package."""
